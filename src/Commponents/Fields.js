@@ -10,7 +10,8 @@ class Fields extends React.Component {
         this.state = {
             fieldsData: fieldsData,
             selectedFieldsCoordinates: [],
-            possibleFieldsData:[]
+            possibleFieldsData:[],
+            level:1,
         };
 
     };
@@ -32,6 +33,13 @@ class Fields extends React.Component {
         })
 
         
+    }
+
+    levelUp = () => {
+        const levelUp = this.state.level + 1;
+        this.setState({
+            level: levelUp
+        })
     }
     
     //Applies when field is clicked
@@ -59,11 +67,13 @@ class Fields extends React.Component {
         })
         
         this.possibleFieldsCoordinates(id,x,y);
+        this.levelUp();
         
     }  
         
         render() {
 
+            console.log(this.state.level)
             return (
                 <div className="col-10 col-lg-6 offset-1 ">
                 <div className="fields row">

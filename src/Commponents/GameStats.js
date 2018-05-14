@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 class GameStats extends React.Component {
 
-
     render() {
         return (
             <ul className="game-stats mt-5">

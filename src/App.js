@@ -4,7 +4,7 @@ import { Fields } from "./Commponents/Fields";
 import { AdvancedStats } from "./Commponents/AdvancedStats";
 import "./App.css";
 
-class App extends Component {
+class App extends React.Component {
   render() {
     return (
       <React.Fragment>
