@@ -1,0 +1,44 @@
+.game-stats>li>h4 {
+  display: inline-block;
+}
+
+.game-stats>li {
+  display: inline-block;
+
+}
+
+.fields {
+  width: 100%;
+  border: 1px solid black;
+}
+
+.plain {
+  border: 1px solid black;
+  width: 10%;
+}
+
+.plain:before {
+  content: "";
+  display: block;
+  padding-top: 75%;
+}
+.selected-field{
+  border: 1px solid black;
+  width: 10%;
+  background-color: green;
+}
+.selected-field:before {
+  content: "";
+  display: block;
+  padding-top: 75%;
+}
+.possible-field{
+  border: 1px solid black;
+  width: 10%;
+  background-color: rgb(197, 209, 30);
+}
+.possible-field:before {
+  content: "";
+  display: block;
+  padding-top: 75%;
+}
