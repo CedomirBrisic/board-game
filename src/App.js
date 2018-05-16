@@ -9,7 +9,7 @@ class App extends React.Component {
     super(props)
 
     this.state = {
-      level: 91
+      level: 12
     }
 
     this.levelUp = this.levelUp.bind(this);

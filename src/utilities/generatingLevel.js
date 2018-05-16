@@ -11,18 +11,17 @@ const generateLevel = (initialFieldData, level) => {
             const allPossibilities = calculatePossibleFields(lastPlacedField)
             const possibleFields = [];
 
-            for (let k = 0; k < allPossibilities.length; k++) {
+            allPossibilities.forEach((possibleField) => {
                 let c = 0;
-
-                for (let j = 0; j < generatedFields.length; j++) {
-                    if (generatedFields[j].id !== allPossibilities[k].id) {
+                generatedFields.forEach((generatedField) => {
+                    if (generatedField.id !== possibleField.id) {
                         c++
                     }
                     if (c === generatedFields.length) {
-                        possibleFields.push(allPossibilities[k]);
+                        possibleFields.push(possibleField);
                     }
-                }
-            }
+                })
+            })
             if (possibleFields.length === 0) {
                 i = -1;
                 generatedFields = [initialFieldData];
@@ -36,24 +35,23 @@ const generateLevel = (initialFieldData, level) => {
         }
     } else {
         const plainFields = 99 - level
-        fieldsData.forEach((field)=>{
-            if (field.id !== initialFieldData.id){
-               field.status= "generated-field";
+        fieldsData.forEach((field) => {
+            if (field.id !== initialFieldData.id) {
+                field.status = "generated-field";
             }
         })
         for (let i = 0; i < plainFields; i++) {
             const randomFieldIndex = Math.floor((Math.random() * 100));
-            if (fieldsData[randomFieldIndex].id !== initialFieldData.id
-            && fieldsData[randomFieldIndex].status !== "plain"){
+            if (fieldsData[randomFieldIndex].id !== initialFieldData.id &&
+                fieldsData[randomFieldIndex].status !== "plain") {
                 fieldsData[randomFieldIndex].status = "plain";
-          } else {
-              i--;
-          }
+            } else {
+                i--;
+            }
         }
         generatedFields.push(fieldsData)
-        // console.log(rawFieldsData[0].id)
-        
     }
+
     return generatedFields
 }
 

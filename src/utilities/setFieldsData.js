@@ -1,9 +1,9 @@
-const setFieldsData = (rawFieldsData, inputFieldsData) => {
-    const fieldsData = rawFieldsData;
-    for (let i = 0; i < inputFieldsData.length; i++) {
-        let id = inputFieldsData[i].id;
-        fieldsData[id - 1] = inputFieldsData[i];
-    }
+const setFieldsData = (fieldsData, fieldsToUpdate) => {
+    
+    fieldsToUpdate.forEach((field) => {
+        fieldsData[field.id-1] = field;
+    });
+
     return fieldsData
 }
 

@@ -5,48 +5,25 @@ import fieldsData from "../data/fieldsData";
 import calculatePossibleFields from "../utilities/possibleFields";
 import SingleField from "./SingleField";
 import generateLevel from "../utilities/generatingLevel";
-import setFieldsData from "../utilities/setFieldsData";
+import setFields from "../utilities/setFieldsData";
+import filterPossibleFields from "../utilities/filterPossibleFields";
 
 class Fields extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            fieldsData: fieldsData,
-            selectedFieldsData: [],
-            possibleFieldsData: [],
             isInitialClick: true,
-            numberOfClicks: 0
+            fieldsData: fieldsData,
         };
-
-        this.initialClick = this.initialClick.bind(this);
-
     };
 
-    possibleFieldsCoordinates = (selectedFieldData) => {
-        const fieldsData = this.state.fieldsData;
-        const possibleFields = calculatePossibleFields(selectedFieldData)
 
-        possibleFields.forEach((possibleField) => {
-
-            fieldsData[possibleField.id - 1] = possibleField;
-
-            this.setState({
-
-                possibleFieldsData: possibleFields,
-
-            })
-        })
-    }
-
-   
-
-    //Applies when field is clicked for the first time on each level
     initialClick = (event) => {
 
-        const id = parseInt(event.target.getAttribute("data-id"),10);
-        const x = parseInt(event.target.getAttribute("data-x"),10);
-        const y = parseInt(event.target.getAttribute("data-y"),10);
+        const id = parseInt(event.target.getAttribute("data-id"), 10);
+        const x = parseInt(event.target.getAttribute("data-x"), 10);
+        const y = parseInt(event.target.getAttribute("data-y"), 10);
 
         const selectedFieldData = {
             "id": id,
@@ -55,35 +32,57 @@ class Fields extends React.Component {
             "status": "selected-field"
         };
 
-        const selectedFieldsData = this.state.selectedFieldsData;
-        selectedFieldsData.push(selectedFieldData);
-
         let fieldsData = this.state.fieldsData;
         fieldsData[id - 1] = selectedFieldData;
 
-        let numberOfClicks = this.state.numberOfClicks;
-        numberOfClicks++;
-
         const generatedFields = generateLevel(selectedFieldData, this.props.level);
-        fieldsData = setFieldsData(fieldsData, generatedFields)
-        
+        fieldsData = setFields(fieldsData, generatedFields);
+
+        const possibleFields = calculatePossibleFields(selectedFieldData)
+        fieldsData = filterPossibleFields(fieldsData, possibleFields)
+
         this.setState({
             fieldsData,
-            selectedFieldsData,
             isInitialClick: false,
-            numberOfClicks
-
         })
     }
-    notInitialClick = () => {
-        let numberOfClicks = this.state.numberOfClicks;
-        numberOfClicks++;
 
-        this.setState({
-            numberOfClicks
-        })
-    };
+    notInitialClick = (event) => {
+        const id = parseInt(event.target.getAttribute("data-id"), 10);
+        const x = parseInt(event.target.getAttribute("data-x"), 10);
+        const y = parseInt(event.target.getAttribute("data-y"), 10);
+        const status = event.target.getAttribute("data-status");
 
+        if (status==="possible-field"){
+        
+            const selectedFieldData = {
+                "id": id,
+                "x": x,
+                "y": y,
+                "status": "selected-field"
+            };
+            
+
+            let fieldsData = this.state.fieldsData;
+            fieldsData.forEach((field)=>{
+                if (field.status === "possible-field"){
+                    field.status = "generated-field";
+                }
+            })
+            fieldsData[id - 1] = selectedFieldData;
+            
+            const possibleFields = calculatePossibleFields(selectedFieldData)
+            fieldsData = filterPossibleFields(fieldsData, possibleFields)
+            
+            this.setState({
+                fieldsData,
+                isInitialClick: false,
+            })
+        } else {
+            alert("BUSTED!!!")
+        }
+    }
+        
     isInitialClick = () => {
         if (this.state.isInitialClick) {
             return this.state.fieldsData.map((fieldData, index) => {
@@ -105,6 +104,7 @@ class Fields extends React.Component {
     }
 
     render() {
+console.log(this.state.fieldsData)
         return (
             <div className="col-10 col-lg-6 offset-1 ">
                 <div className="fields row">
