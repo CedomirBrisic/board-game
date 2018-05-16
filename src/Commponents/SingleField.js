@@ -1,22 +1,17 @@
-import React, { Component } from "react";
+import React from "react";
 
 
-class SingleField extends React.Component {
-    constructor(props){
-        super(props)
-    }
-
-    render(){
+const SingleField = (props) => {
 
         return(
-            <div className={this.props.fieldData.status}
-            data-id={this.props.fieldData.id}
-            data-x={this.props.fieldData.x}
-            data-y={this.props.fieldData.y}
-            onClick={this.props.selectingField}
+            <div className={props.fieldData.status}
+            data-id={props.fieldData.id}
+            data-x={props.fieldData.x}
+            data-y={props.fieldData.y}
+            
+            onClick={props.click}
             >
         </div>
     )
 }
-}
-export {SingleField}
+export default SingleField;

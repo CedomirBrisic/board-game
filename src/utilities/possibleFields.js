@@ -1,8 +1,8 @@
-const calculatePossibleFields = (sIdInput, sxInput, syInput) => {
+const calculatePossibleFields = (selectedFieldData) => {
 
-    const sId = parseInt(sIdInput, 10);
-    const sx = parseInt(sxInput, 10);
-    const sy = parseInt(syInput, 10);
+    const sId = parseInt(selectedFieldData.id, 10);
+    const sx = parseInt(selectedFieldData.x, 10);
+    const sy = parseInt(selectedFieldData.y, 10);
 
     const allPossibilities = [];
     let possibleFieldsData = [];
@@ -107,6 +107,4 @@ const calculatePossibleFields = (sIdInput, sxInput, syInput) => {
 
 }
 
-export {
-    calculatePossibleFields
-}
+export default calculatePossibleFields;

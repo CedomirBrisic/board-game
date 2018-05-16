@@ -604,6 +604,4 @@ const fieldsData = [
 
 ]
 
-export {
-    fieldsData
-}
+export default fieldsData;

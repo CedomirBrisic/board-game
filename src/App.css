@@ -35,9 +35,19 @@
 .possible-field{
   border: 1px solid black;
   width: 10%;
-  background-color: rgb(197, 209, 30);
+  background-color: rgb(117, 209, 30);
 }
 .possible-field:before {
+  content: "";
+  display: block;
+  padding-top: 75%;
+}
+.generated-field{
+  border: 1px solid black;
+  width: 10%;
+  background-color: rgb(9, 0, 94);
+}
+.generated-field:before {
   content: "";
   display: block;
   padding-top: 75%;
