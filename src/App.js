@@ -9,28 +9,57 @@ class App extends React.Component {
     super(props)
 
     this.state = {
-      level: 12
+      level: 2,
+      leftToClick: 1,
+      lives: 1
     }
 
+    this.setLevel = this.setLevel.bind(this);
+    this.setLeftToClick = this.setLeftToClick.bind(this);
+    this.setLives = this.setLives.bind(this);
     this.levelUp = this.levelUp.bind(this);
   }
 
   levelUp = () => {
-    const levelUp = this.state.level + 1;
+    const level = this.state.level + 1;
     this.setState({
-      level: levelUp
+      level
     })
   }
 
+  setLevel = (level) => {
+    this.setState({
+      level
+    })
+  }
+  setLeftToClick = (leftToClick) => {
+    this.setState({
+      leftToClick
+    })
+  }
+  setLives = (lives) => {
+    this.setState({
+      lives
+    })
+  }
+
+  componentDidMount() {
+    this.setState({
+      leftToClick: this.state.level + 1
+    })
+  }
 
   render() {
     return (
       <React.Fragment>
-        <GameStats level={this.state.level} />
+        <GameStats data={this.state} />
 
         <div className="row">
-          <Fields levelUp={this.levelUp}
-            level={this.state.level} />
+          <Fields setLevel={this.setLevel}
+            setLeftToClick={this.setLeftToClick}
+            setLives={this.setLives}
+            levelUp={this.levelUp}
+            data={this.state} />
 
           <AdvancedStats />
         </div>

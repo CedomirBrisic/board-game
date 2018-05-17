@@ -1,3 +1,6 @@
+#root{
+  width: 96%;
+}
 .game-stats>li>h4 {
   display: inline-block;
 }
@@ -14,6 +17,8 @@
 .plain {
   border: 1px solid black;
   width: 10%;
+  background-image: url("./images/plain.jpg");
+  background-size: cover;
 }
 
 .plain:before {
@@ -25,10 +30,11 @@
 .selected-field {
   border: 1px solid black;
   width: 10%;
-  background-color: rgb(0, 151, 0);
-  -webkit-box-shadow: 0px 0px 30px 0px rgba(0, 156, 5, 1);
-  -moz-box-shadow: 0px 0px 30px 0px rgba(0, 156, 5, 1);
-  box-shadow: 0px 0px 30px 0px rgba(0, 156, 5, 1);
+  background-image: url("./images/selected.png");
+  background-size: cover;
+  -webkit-box-shadow: 0px 0px 30px 0px rgba(0, 255, 0, 1);
+  -moz-box-shadow: 0px 0px 30px 0px rgba(0, 255, 0, 1);
+  box-shadow: 0px 0px 30px 0px rgba(0, 255, 0, 1);
 }
 
 .selected-field:before {
@@ -40,10 +46,9 @@
 .possible-field {
   border: 1px solid black;
   width: 10%;
-  background-color: rgb(229, 255, 79);
-  -webkit-box-shadow: 0px 0px 30px 0px rgba(0, 156, 5, 1);
-  -moz-box-shadow: 0px 0px 30px 0px rgba(0, 156, 5, 1);
-  box-shadow: 0px 0px 30px 0px rgba(0, 156, 5, 1);
+  background-image: url("./images/possible.jpg");
+  background-size: cover;
+
 }
 
 .possible-field:before {
@@ -55,7 +60,8 @@
 .generated-field {
   border: 1px solid black;
   width: 10%;
-  background-color: rgb(9, 0, 94);
+  background-image: url("./images/generated.png");
+  background-size: cover;
 }
 
 .generated-field:before {
