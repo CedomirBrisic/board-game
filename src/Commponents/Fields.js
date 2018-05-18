@@ -33,6 +33,18 @@ class Fields extends React.Component {
         })
     }
 
+    resetFieldsData = () => {
+        const fieldsData = this.state.fieldsData;
+        fieldsData.forEach((field) => {
+            field.status = "plain";
+        })
+
+        this.setState({
+            fieldsData,
+            isInitialClick: true
+        })
+    }
+
     initialClick = (event) => {
 
         const id = parseInt(event.target.getAttribute("data-id"), 10);
@@ -62,6 +74,7 @@ class Fields extends React.Component {
 
         this.props.setLeftToClick(this.props.data.leftToClick - 1)
         this.props.startLevelTimer();
+        this.props.toggleDefaultLevelButton();
 
     }
 
@@ -110,18 +123,23 @@ class Fields extends React.Component {
     }
 
     componentWillReceiveProps = (nextProps) => {
+        if(nextProps.data.level > this.props.data.levelReached){
+            this.props.setReachedLevel(nextProps.data.level);
+        }
+        if (nextProps.data.startLevel !== this.props.data.startLevel) {
+            this.resetFieldsData();
+        }
         if (nextProps.data.lives < 1) {
             this.setState({
                 gameOverModal: true
             })
             this.props.clearLevelTimer();
-            
+
         } else if (nextProps.data.lives < this.props.data.lives) {
             this.setState({
                 bustedLevelModal: true
             })
             this.props.clearLevelTimer();
-            
         }
     }
 
@@ -146,72 +164,62 @@ class Fields extends React.Component {
     }
 
     closeNextLevelModal = () => {
-        let levelReached = this.props.data.levelReached
+        // let levelReached = this.props.data.levelReached;
         this.props.setLives(this.props.data.lives + 1);
-        this.props.setLevel(this.props.data.level + 1);
+        this.props.setLevel(parseInt(this.props.data.level,10) + 1);
 
-        const fieldsData = this.state.fieldsData;
-        fieldsData.forEach((field) => {
-            field.status = "plain";
-        })
-        if (this.props.data.level === this.props.data.levelReached) {
-            levelReached++;
-        }
+        // if (this.props.data.level === this.props.data.levelReached) {
+        //     levelReached++;
+        // }
 
         this.setState({
-            fieldsData,
-            isInitialClick: true,
             nextLevelModal: false,
         })
 
-        this.props.setReachedLevel(levelReached);
+        this.resetFieldsData();
+        // this.props.setReachedLevel(levelReached);
         this.props.resetLevelTime();
+        this.props.toggleDefaultLevelButton();
+
     }
-    
+
     closeBustedLevelModal = () => {
-        const fieldsData = this.state.fieldsData;
-        fieldsData.forEach((field) => {
-            field.status = "plain";
-        })
 
         this.setState({
-            fieldsData,
-            isInitialClick: true,
             bustedLevelModal: false,
         })
 
+        this.resetFieldsData();
         this.props.resetLevelTime();
-        
+        this.props.toggleDefaultLevelButton();
     }
+
     closeGameOverModal = () => {
-        const fieldsData = this.state.fieldsData;
-        fieldsData.forEach((field) => {
-            field.status = "plain";
-        })
-        
+
         this.setState({
-            fieldsData,
-            isInitialClick: true,
             gameOverModal: false,
         })
-        
-        this.props.setLevel(1);
-        this.props.setLives(1);
-        this.props.setReachedLevel(1);
-        this.props.resetLevelTime();
-    }
-    render() {
 
+        this.resetFieldsData();
+        this.props.setLevel(parseInt(this.props.data.startLevel,10));
+        this.props.setLives(1);
+        this.props.setReachedLevel(this.props.data.startLevel);
+        this.props.resetLevelTime();
+        this.props.toggleDefaultLevelButton();
+    }
+
+    render() {
         return (
-            <div className="col-10 col-lg-6 offset-1 ">
+            <div className="col-11 col-xl-6 offset-1 ">
                 <NextLevelModal isVisible={this.state.nextLevelModal}
                     levelUp={this.props.levelUp}
                     closeNextLevelModal={this.closeNextLevelModal}
                 />
                 <BustedLevelModal isVisible={this.state.bustedLevelModal}
+                    startLevel={this.props.data.startLevel}
                     levelReached={this.props.data.levelReached}
                     lives={this.props.data.lives}
-
+                    startLevel={this.props.data.startLevel}
                     setLevel={this.props.setLevel}
                     closeBustedLevelModal={this.closeBustedLevelModal}
                 />

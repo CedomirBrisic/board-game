@@ -14,7 +14,7 @@ const NextLevelModal = (props) => {
                 <p> Ready when you are...</p>
             </div>
             <div className="modal-footer">
-                <button type="button" className="btn btn-primary"
+                <button type="submit" className="btn btn-primary"
                     onClick={props.closeNextLevelModal}>
                     Ready
           </button>

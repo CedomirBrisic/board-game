@@ -4,9 +4,9 @@ const AdvancedStats = () => {
 
 
     return (
-        <div className="col-6 col-lg-4 offset-3 offset-lg-0">
+        <div className="col-10 col-xl-4 offset-1 offset-xl-0">
 
-            <button className="btn w-100 btn-primary mt-5" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            <button className="btn w-100 btn-info mt-5" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                 Advanced Stats
   </button>
             <div className="collapse" id="collapseExample">

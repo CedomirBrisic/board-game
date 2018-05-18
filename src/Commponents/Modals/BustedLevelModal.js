@@ -12,7 +12,7 @@ const BustedLevelModal = (props) => {
 
     const generateLevels = () => {
         const levels = [];
-        for (let i = 1; i <= props.levelReached; i++) {
+        for (let i = props.startLevel; i <= props.levelReached; i++) {
             levels.push(<a className="dropdown-item" data-level={i} key={i}
                 onClick={chosenLevel}>{i}</a>);
         }
@@ -20,6 +20,7 @@ const BustedLevelModal = (props) => {
     }
 
     return (
+
         <Modal visible={props.isVisible}>
             <div className="modal-header">
                 <h4 className="modal-title">BUSTED...</h4>

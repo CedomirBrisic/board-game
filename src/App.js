@@ -1,4 +1,5 @@
 import React from "react";
+import SetDefaultLevel from "./Commponents/Modals/SetDefaultLevel";
 import GameStats from "./Commponents/GameStats";
 import Fields from "./Commponents/Fields";
 import AdvancedStats from "./Commponents/AdvancedStats";
@@ -9,12 +10,14 @@ class App extends React.Component {
     super(props)
 
     this.state = {
+      startLevel: 1,
       level: 1,
       leftToClick: 1,
       lives: 1,
       levelReached: 1,
-      levelTime: 0
-
+      levelTime: 0,
+      setDefaultLevelModal: true,
+      isActiveDefaultLevelButton: true
     }
     this.setLevel = this.setLevel.bind(this);
     this.setLeftToClick = this.setLeftToClick.bind(this);
@@ -23,7 +26,26 @@ class App extends React.Component {
     this.setReachedLevel = this.setReachedLevel.bind(this);
     this.clearLevelTimer = this.clearLevelTimer.bind(this);
     this.resetLevelTime = this.resetLevelTime.bind(this);
-    
+    this.setStartLevel = this.setStartLevel.bind(this);
+    this.closeSetStartLevelModal = this.closeSetStartLevelModal.bind(this);
+    this.toggleDefaultLevelButton = this.toggleDefaultLevelButton.bind(this);
+
+  }
+  setStartLevel = (event) => {
+    this.setState({
+      startLevel: event.target.value,
+    })
+  }
+  
+  closeSetStartLevelModal = (event) => {
+    event.preventDefault();
+    // const level = event.target.value;
+    this.setState({
+      level: this.state.startLevel,
+      leftToClick: parseInt(this.state.startLevel, 10) + 1,
+      levelReached:event.target.value,
+      setDefaultLevelModal: false
+    })
   }
 
   levelUp = () => {
@@ -71,21 +93,51 @@ class App extends React.Component {
     clearInterval(this.levelTimer);
   }
 
-  resetLevelTime=()=>{
+  resetLevelTime = () => {
     this.setState({
-      levelTime:0
+      levelTime: 0
     })
   }
 
+  toggleSetStartLevelModal = () => {
+    this.clearLevelTimer();
+    this.resetLevelTime();
+
+    this.setState({
+      setDefaultLevelModal: true
+    })
+  }
+  
   componentDidMount() {
     this.setState({
-      leftToClick: this.state.level + 1
+      leftToClick: this.state.level + 1,
     })
   }
 
+  isActiveDefaultLevelButton = () => {
+    return this.state.isActiveDefaultLevelButton ?
+      <button type="button" className="btn-default" onClick={this.toggleSetStartLevelModal}>Change default starting level</button> :
+      <button type="button" className="btn-default" onClick={this.toggleSetStartLevelModal} disabled>Change default starting level</button>;
+  }
+
+  toggleDefaultLevelButton = () => {
+    this.state.isActiveDefaultLevelButton ? this.setState({ isActiveDefaultLevelButton: false }) :
+      this.setState({ isActiveDefaultLevelButton: true })
+  }
+
+
   render() {
+    console.log(`start level: ${this.state.startLevel}`)
+    console.log(`reached level: ${this.state.levelReached}`)
     return (
       <React.Fragment >
+        {this.isActiveDefaultLevelButton()}
+        <SetDefaultLevel isVisible={this.state.setDefaultLevelModal}
+          setStartLevel={this.setStartLevel}
+          closeSetStartLevelModal={this.closeSetStartLevelModal}
+          startLevel={this.state.startLevel}
+
+        />
         <GameStats data={this.state} />
 
         <div className="row" >
@@ -97,6 +149,7 @@ class App extends React.Component {
             startLevelTimer={this.startLevelTimer}
             clearLevelTimer={this.clearLevelTimer}
             resetLevelTime={this.resetLevelTime}
+            toggleDefaultLevelButton={this.toggleDefaultLevelButton}
 
             data={this.state}
           />
