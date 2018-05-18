@@ -9,37 +9,71 @@ class App extends React.Component {
     super(props)
 
     this.state = {
-      level: 2,
+      level: 1,
       leftToClick: 1,
-      lives: 1
-    }
+      lives: 1,
+      levelReached: 1,
+      levelTime: 0
 
+    }
     this.setLevel = this.setLevel.bind(this);
     this.setLeftToClick = this.setLeftToClick.bind(this);
     this.setLives = this.setLives.bind(this);
     this.levelUp = this.levelUp.bind(this);
+    this.setReachedLevel = this.setReachedLevel.bind(this);
+    this.clearLevelTimer = this.clearLevelTimer.bind(this);
+    this.resetLevelTime = this.resetLevelTime.bind(this);
+    
   }
 
   levelUp = () => {
-    const level = this.state.level + 1;
     this.setState({
-      level
+      level: this.state.level + 1
     })
   }
 
   setLevel = (level) => {
     this.setState({
-      level
+      level,
+      leftToClick: level + 1
     })
   }
+
   setLeftToClick = (leftToClick) => {
     this.setState({
       leftToClick
     })
   }
+
   setLives = (lives) => {
     this.setState({
       lives
+    })
+  }
+
+  setReachedLevel = (level) => {
+    this.setState({
+      levelReached: level
+    })
+  }
+
+  increaseLevelTime = () => {
+    this.setState({
+      levelTime: this.state.levelTime + 0.1
+    })
+  }
+
+  startLevelTimer = () => {
+    this.levelTimer = setInterval(this.increaseLevelTime, 100);
+  }
+
+  clearLevelTimer = () => {
+    clearInterval(this.levelTimer);
+  }
+
+  resetLevelTime=()=>{
+    this.setState({
+      levelTime:0
     })
   }
 
@@ -51,15 +85,21 @@ class App extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
+      <React.Fragment >
         <GameStats data={this.state} />
 
-        <div className="row">
+        <div className="row" >
           <Fields setLevel={this.setLevel}
             setLeftToClick={this.setLeftToClick}
             setLives={this.setLives}
             levelUp={this.levelUp}
-            data={this.state} />
+            setReachedLevel={this.setReachedLevel}
+            startLevelTimer={this.startLevelTimer}
+            clearLevelTimer={this.clearLevelTimer}
+            resetLevelTime={this.resetLevelTime}
+
+            data={this.state}
+          />
 
           <AdvancedStats />
         </div>
