@@ -23,7 +23,7 @@ const BustedLevelModal = (props) => {
 
         <Modal visible={props.isVisible}>
             <div className="modal-header">
-                <h4 className="modal-title">BUSTED...</h4>
+                <h4 className="modal-title p-3"></h4>
             </div>
             <div className="modal-body text-center">
                 <h5>Rule #95 Kid,

@@ -14,7 +14,6 @@ class App extends React.Component {
       level: 1,
       leftToClick: 1,
       lives: 1,
-      levelReached: 1,
       levelTime: 0,
       setDefaultLevelModal: true,
       isActiveDefaultLevelButton: true
@@ -32,19 +31,20 @@ class App extends React.Component {
 
   }
   setStartLevel = (event) => {
+    const startLevel = parseInt(event.target.value,10);
+    event.preventDefault();
     this.setState({
-      startLevel: event.target.value,
+      startLevel
     })
   }
-  
-  closeSetStartLevelModal = (event) => {
-    event.preventDefault();
-    // const level = event.target.value;
+
+  closeSetStartLevelModal = () => {
     this.setState({
       level: this.state.startLevel,
-      leftToClick: parseInt(this.state.startLevel, 10) + 1,
-      levelReached:event.target.value,
-      setDefaultLevelModal: false
+      leftToClick: this.state.startLevel + 1,
+      levelReached: this.state.startLevel,
+      setDefaultLevelModal: false,
+      lives:1
     })
   }
 
@@ -107,11 +107,29 @@ class App extends React.Component {
       setDefaultLevelModal: true
     })
   }
-  
+
   componentDidMount() {
-    this.setState({
-      leftToClick: this.state.level + 1,
-    })
+    let state = JSON.parse(localStorage.getItem("superAwesomeGameAppState"));
+
+    if (state !== null) {
+      this.setState({
+        startLevel: state.startLevel,
+        level: state.level,
+        leftToClick: state.level+1,
+        lives: state.lives,
+        levelReached: state.levelReached,
+        levelTime: state.levelTime,
+        setDefaultLevelModal: state.setDefaultLevelModal,
+        isActiveDefaultLevelButton: state.isActiveDefaultLevelButton
+      })
+    }
+  }
+
+  componentDidUpdate() {
+    let state = JSON.stringify(this.state);
+    localStorage.setItem("superAwesomeGameAppState", state);
+
+    
   }
 
   isActiveDefaultLevelButton = () => {
@@ -127,8 +145,7 @@ class App extends React.Component {
 
 
   render() {
-    console.log(`start level: ${this.state.startLevel}`)
-    console.log(`reached level: ${this.state.levelReached}`)
+
     return (
       <React.Fragment >
         {this.isActiveDefaultLevelButton()}

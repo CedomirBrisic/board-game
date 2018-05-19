@@ -11,10 +11,7 @@ const AdvancedStats = () => {
   </button>
             <div className="collapse" id="collapseExample">
                 <div className="card card-body">
-                    <h5> Top Score </h5>
-                </div>
-                <div className="card card-body">
-                    <h5> Score Data </h5>
+                    <h5> Coming soon... </h5>
                 </div>
             </div>
         </div>
