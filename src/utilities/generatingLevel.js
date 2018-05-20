@@ -2,6 +2,7 @@ import calculatePossibleFields from "./possibleFields";
 import fieldsData from "../data/fieldsData";
 
 const generateLevel = (initialFieldData, level) => {
+    
     let lastPlacedField = initialFieldData;
     let generatedFields = [lastPlacedField];
 

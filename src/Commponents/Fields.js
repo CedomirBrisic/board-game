@@ -106,15 +106,22 @@ class Fields extends React.Component {
 
             this.props.setLeftToClick(this.props.data.leftToClick - 1)
 
+
+
             if (this.props.data.leftToClick === 1) {
 
                 this.setState({
                     nextLevelModal: true
                 })
+
+                this.props.setLives(this.props.data.lives + 1);
+                this.props.setLevel(parseInt(this.props.data.level, 10) + 1);
                 this.props.clearLevelTimer();
                 this.props.resetLevelTime();
-
             }
+
+
+
         } else if ((this.props.data.lives - this.props.data.leftToClick) < 1) {
 
             this.props.setReachedLevel(this.props.data.startLevel);
@@ -133,11 +140,8 @@ class Fields extends React.Component {
             this.props.setLives(this.props.data.lives - this.props.data.leftToClick);
             this.props.clearLevelTimer();
             this.props.resetLevelTime();
-
-
         }
     }
-
 
     isInitialClick = () => {
         if (this.state.isInitialClick) {
@@ -160,9 +164,6 @@ class Fields extends React.Component {
     }
 
     closeNextLevelModal = () => {
-        this.props.setLives(this.props.data.lives + 1);
-        this.props.setLevel(parseInt(this.props.data.level, 10) + 1);
-
         this.setState({
             nextLevelModal: false,
         })
@@ -172,26 +173,20 @@ class Fields extends React.Component {
     }
 
     closeBustedLevelModal = () => {
-
-        if (this.props.data.lives)
-            this.setState({
-                bustedLevelModal: false,
-            })
+        this.setState({
+            bustedLevelModal: false,
+        })
 
         this.resetFieldsData();
         this.props.toggleDefaultLevelButton();
     }
 
     closeGameOverModal = () => {
-
         this.setState({
             gameOverModal: false,
         })
 
         this.resetFieldsData();
-        // this.props.setLevel(parseInt(this.props.data.startLevel, 10));
-        // this.props.setLives(1);
-        // this.props.setReachedLevel(this.props.data.startLevel);
         this.props.toggleDefaultLevelButton();
     }
 
@@ -213,7 +208,6 @@ class Fields extends React.Component {
 
 
     componentWillReceiveProps = (nextProps) => {
-
         let possibleFieldsCount = 0;
 
 
@@ -224,12 +218,14 @@ class Fields extends React.Component {
         }
 
 
+
         if (nextProps.data.startLevel !== this.props.data.startLevel) {
 
             this.resetFieldsData();
         }
 
-        
+
+
         if (nextProps.data.lives < this.props.data.lives
             && nextProps.data.startLevel === this.props.data.startLevel
             && nextProps.data.leftToClick === this.props.data.leftToClick) {
@@ -247,36 +243,24 @@ class Fields extends React.Component {
             }
         })
 
-        if (
-            nextProps.data.levelTime !== 0
-            // && 
-            && possibleFieldsCount === 0
-            // && nextProps.data.leftToClick > 0
+        if (possibleFieldsCount === 0
+            && nextProps.data.levelTime !== 0
             && nextProps.data.leftToClick < this.props.data.leftToClick) {
-            console.log("possibleFields count", possibleFieldsCount)
-            console.log("hello from 1st")
-            console.log("lives:", this.props.data.lives)
-            console.log("this leftToClick:", this.props.data.leftToClick)
-            console.log("next leftToClick:", nextProps.data.leftToClick)
-            if ((this.props.data.lives - nextProps.data.leftToClick) < 1) {
 
-                this.props.setReachedLevel(this.props.data.startLevel);
-                this.props.setLevel(parseInt(this.props.data.startLevel, 10));
-                this.props.setLives(1);
-                console.log("hello from lives < 1")
+            if ((this.props.data.lives - nextProps.data.leftToClick) < 1) {
 
                 this.setState({
                     gameOverModal: true
                 })
 
+                this.props.setReachedLevel(this.props.data.startLevel);
+                this.props.setLevel(parseInt(this.props.data.startLevel, 10));
+                this.props.setLives(1);
                 this.props.clearLevelTimer();
-                // this.props.resetLevelTime();
-
-
             }
-            else if ((nextProps.data.lives - nextProps.data.leftToClick) > 0) {
-                console.log("hello from (nextProps.data.lives - nextProps.data.leftToClick) > 0")
 
+
+            else if ((nextProps.data.lives - nextProps.data.leftToClick) > 0) {
                 nextProps.setLives(this.props.data.lives - nextProps.data.leftToClick);
             }
         }
@@ -287,24 +271,27 @@ class Fields extends React.Component {
 
         return (
             <div className="col-11 col-xl-6 offset-1 ">
-                <NextLevelModal isVisible={this.state.nextLevelModal}
+                <NextLevelModal
+                    isVisible={this.state.nextLevelModal}
                     levelUp={this.props.levelUp}
                     closeNextLevelModal={this.closeNextLevelModal}
                     masterRestart={this.props.masterRestart}
                 />
-                <BustedLevelModal isVisible={this.state.bustedLevelModal}
+                <BustedLevelModal
+                    isVisible={this.state.bustedLevelModal}
                     startLevel={this.props.data.startLevel}
                     levelReached={this.props.data.levelReached}
                     lives={this.props.data.lives}
-                    startLevel={this.props.data.startLevel}
                     setLevel={this.props.setLevel}
                     closeBustedLevelModal={this.closeBustedLevelModal}
                     masterRestart={this.props.masterRestart}
                 />
-                <GameOverModal isVisible={this.state.gameOverModal}
+                <GameOverModal
+                    isVisible={this.state.gameOverModal}
                     closeGameOverModal={this.closeGameOverModal}
                     masterRestart={this.props.masterRestart}
                 />
+
                 <div className="fields row">
                     {this.isInitialClick()}
                 </div>

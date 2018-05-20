@@ -18,6 +18,7 @@ class App extends React.Component {
       setDefaultLevelModal: true,
       isActiveDefaultLevelButton: true
     }
+
     this.setLevel = this.setLevel.bind(this);
     this.setLeftToClick = this.setLeftToClick.bind(this);
     this.setLives = this.setLives.bind(this);
@@ -30,6 +31,7 @@ class App extends React.Component {
     this.toggleDefaultLevelButton = this.toggleDefaultLevelButton.bind(this);
 
   }
+
   setStartLevel = (event) => {
     const startLevel = parseInt(event.target.value, 10);
     event.preventDefault();
@@ -102,7 +104,6 @@ class App extends React.Component {
   toggleSetStartLevelModal = () => {
     this.clearLevelTimer();
     this.resetLevelTime();
-
     this.setState({
       setDefaultLevelModal: true
     })
@@ -132,8 +133,8 @@ class App extends React.Component {
 
   isActiveDefaultLevelButton = () => {
     return this.state.isActiveDefaultLevelButton ?
-      <button type="button" className="btn-default" onClick={this.toggleSetStartLevelModal}>Change default starting level</button> :
-      <button type="button" className="btn-default" onClick={this.toggleSetStartLevelModal} disabled>Change default starting level</button>;
+      <button type="button" className="btn-default" onClick={this.toggleSetStartLevelModal}>Restart game</button> :
+      <button type="button" className="btn-default" onClick={this.toggleSetStartLevelModal} disabled>Restart game</button>;
   }
 
   toggleDefaultLevelButton = () => {
@@ -145,17 +146,21 @@ class App extends React.Component {
 
     return (
       <React.Fragment >
+
         {this.isActiveDefaultLevelButton()}
-        <SetDefaultLevel isVisible={this.state.setDefaultLevelModal}
+
+        <SetDefaultLevel
+          isVisible={this.state.setDefaultLevelModal}
           setStartLevel={this.setStartLevel}
           closeSetStartLevelModal={this.closeSetStartLevelModal}
           startLevel={this.state.startLevel}
-
         />
+
         <GameStats data={this.state} />
 
         <div className="row" >
-          <Fields setLevel={this.setLevel}
+          <Fields
+            setLevel={this.setLevel}
             setLeftToClick={this.setLeftToClick}
             setLives={this.setLives}
             levelUp={this.levelUp}

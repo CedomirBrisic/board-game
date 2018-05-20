@@ -8,7 +8,7 @@ const AdvancedStats = () => {
 
             <button className="btn w-100 btn-info mt-5" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                 Advanced Stats
-  </button>
+            </button>
             <div className="collapse" id="collapseExample">
                 <div className="card card-body">
                     <h5> Coming soon... </h5>

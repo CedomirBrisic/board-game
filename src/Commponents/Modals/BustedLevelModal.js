@@ -3,11 +3,13 @@ import Modal from 'react-bootstrap4-modal';
 
 const BustedLevelModal = (props) => {
 
+    
     const chosenLevel = (event) => {
         const level = parseInt(event.target.getAttribute("data-level"), 10);
         props.setLevel(level);
         props.closeBustedLevelModal();
     }
+
 
     const generateChosenLevel = () => {
         const levels = [];

@@ -2,8 +2,8 @@ import React from "react";
 import Modal from 'react-bootstrap4-modal';
 
 const NextLevelModal = (props) => {
+    
     return (
-
         <Modal visible={props.isVisible}>
             <div className="modal-header">
                 <h4 className="modal-title">CONGRATULATIONS...</h4>
