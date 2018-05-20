@@ -31,7 +31,7 @@ class App extends React.Component {
 
   }
   setStartLevel = (event) => {
-    const startLevel = parseInt(event.target.value,10);
+    const startLevel = parseInt(event.target.value, 10);
     event.preventDefault();
     this.setState({
       startLevel
@@ -44,7 +44,7 @@ class App extends React.Component {
       leftToClick: this.state.startLevel + 1,
       levelReached: this.state.startLevel,
       setDefaultLevelModal: false,
-      lives:1
+      lives: 1
     })
   }
 
@@ -115,12 +115,12 @@ class App extends React.Component {
       this.setState({
         startLevel: state.startLevel,
         level: state.level,
-        leftToClick: state.level+1,
+        leftToClick: state.level + 1,
         lives: state.lives,
         levelReached: state.levelReached,
-        levelTime: state.levelTime,
+        levelTime: 0,
         setDefaultLevelModal: state.setDefaultLevelModal,
-        isActiveDefaultLevelButton: state.isActiveDefaultLevelButton
+        isActiveDefaultLevelButton: false
       })
     }
   }
@@ -128,8 +128,6 @@ class App extends React.Component {
   componentDidUpdate() {
     let state = JSON.stringify(this.state);
     localStorage.setItem("superAwesomeGameAppState", state);
-
-    
   }
 
   isActiveDefaultLevelButton = () => {
@@ -142,7 +140,6 @@ class App extends React.Component {
     this.state.isActiveDefaultLevelButton ? this.setState({ isActiveDefaultLevelButton: false }) :
       this.setState({ isActiveDefaultLevelButton: true })
   }
-
 
   render() {
 

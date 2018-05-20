@@ -14,8 +14,8 @@ class Fields extends React.Component {
         super(props)
 
         this.state = {
-            isInitialClick: true,
             fieldsData: initialFieldsData,
+            isInitialClick: true,
             nextLevelModal: false,
             bustedLevelModal: false,
             gameOverModal: false,
@@ -26,22 +26,6 @@ class Fields extends React.Component {
         this.closeGameOverModal = this.closeGameOverModal.bind(this);
     };
 
-    componentDidMount() {
-
-        const isInitial = localStorage.getItem("superAwesomeGameAppState");
-
-        this.setState({
-            fieldsData: initialFieldsData,
-            isInitialClick: true,
-        })
-
-        if (isInitial !== null && !isInitial.setDefaultLevelModal) {
-            this.setState({
-                bustedLevelModal: true
-            })
-        }
-
-    }
 
     resetFieldsData = () => {
         const fieldsData = this.state.fieldsData;
@@ -74,7 +58,7 @@ class Fields extends React.Component {
         const generatedFields = generateLevel(selectedFieldData, this.props.data.level);
         fieldsData = setFields(fieldsData, generatedFields);
 
-        const possibleFields = calculatePossibleFields(selectedFieldData)
+        const possibleFields = calculatePossibleFields(selectedFieldData);
         fieldsData = filterPossibleFields(fieldsData, possibleFields)
 
         this.setState({
@@ -93,6 +77,7 @@ class Fields extends React.Component {
         const x = parseInt(event.target.getAttribute("data-x"), 10);
         const y = parseInt(event.target.getAttribute("data-y"), 10);
         const status = event.target.getAttribute("data-status");
+
         if (status === "possible-field") {
 
             const selectedFieldData = {
@@ -108,6 +93,7 @@ class Fields extends React.Component {
                     field.status = "generated-field";
                 }
             })
+
             fieldsData[id - 1] = selectedFieldData;
 
             const possibleFields = calculatePossibleFields(selectedFieldData)
@@ -126,35 +112,32 @@ class Fields extends React.Component {
                     nextLevelModal: true
                 })
                 this.props.clearLevelTimer();
+                this.props.resetLevelTime();
+
             }
-        } else {
-            this.props.setLives(this.props.data.lives - this.props.data.leftToClick);
-        }
-    }
+        } else if ((this.props.data.lives - this.props.data.leftToClick) < 1) {
 
-    componentWillReceiveProps = (nextProps) => {
-
-        if (nextProps.data.level > this.props.data.levelReached
-            && nextProps.data.startLevel === this.props.data.startLevel) {
-            this.props.setReachedLevel(nextProps.data.level);
-        }
-        if (nextProps.data.startLevel !== this.props.data.startLevel) {
+            this.props.setReachedLevel(this.props.data.startLevel);
+            this.props.setLevel(parseInt(this.props.data.startLevel, 10));
+            this.props.setLives(1);
+            this.props.setLeftToClick(parseInt(this.props.data.startLevel, 10) + 1);
+            this.props.clearLevelTimer();
+            this.props.resetLevelTime();
             this.resetFieldsData();
-        }
-        if (nextProps.data.lives < 1) {
+
             this.setState({
                 gameOverModal: true
             })
-            this.props.clearLevelTimer();
 
-        } else if (nextProps.data.lives < this.props.data.lives
-            && nextProps.data.startLevel === this.props.data.startLevel) {
-            this.setState({
-                bustedLevelModal: true
-            })
+        } else {
+            this.props.setLives(this.props.data.lives - this.props.data.leftToClick);
             this.props.clearLevelTimer();
+            this.props.resetLevelTime();
+
+
         }
     }
+
 
     isInitialClick = () => {
         if (this.state.isInitialClick) {
@@ -185,18 +168,17 @@ class Fields extends React.Component {
         })
 
         this.resetFieldsData();
-        this.props.resetLevelTime();
         this.props.toggleDefaultLevelButton();
     }
 
     closeBustedLevelModal = () => {
 
-        this.setState({
-            bustedLevelModal: false,
-        })
+        if (this.props.data.lives)
+            this.setState({
+                bustedLevelModal: false,
+            })
 
         this.resetFieldsData();
-        this.props.resetLevelTime();
         this.props.toggleDefaultLevelButton();
     }
 
@@ -207,12 +189,99 @@ class Fields extends React.Component {
         })
 
         this.resetFieldsData();
-        this.props.setLevel(parseInt(this.props.data.startLevel, 10));
-        this.props.setLives(1);
-        this.props.setReachedLevel(this.props.data.startLevel);
-        this.props.resetLevelTime();
+        // this.props.setLevel(parseInt(this.props.data.startLevel, 10));
+        // this.props.setLives(1);
+        // this.props.setReachedLevel(this.props.data.startLevel);
         this.props.toggleDefaultLevelButton();
     }
+
+    componentDidMount = () => {
+
+        let isInitial = JSON.parse(localStorage.getItem("superAwesomeGameAppState"))
+
+        this.setState({
+            fieldsData: initialFieldsData,
+            isInitialClick: true,
+        })
+
+        if (isInitial !== null) {
+            this.setState({
+                bustedLevelModal: true
+            })
+        }
+    }
+
+
+    componentWillReceiveProps = (nextProps) => {
+
+        let possibleFieldsCount = 0;
+
+
+        if (nextProps.data.level > this.props.data.levelReached
+            && nextProps.data.startLevel === this.props.data.startLevel) {
+
+            this.props.setReachedLevel(nextProps.data.level);
+        }
+
+
+        if (nextProps.data.startLevel !== this.props.data.startLevel) {
+
+            this.resetFieldsData();
+        }
+
+        
+        if (nextProps.data.lives < this.props.data.lives
+            && nextProps.data.startLevel === this.props.data.startLevel
+            && nextProps.data.leftToClick === this.props.data.leftToClick) {
+
+            this.setState({
+                bustedLevelModal: true
+            })
+            this.props.clearLevelTimer();
+        }
+
+
+        this.state.fieldsData.forEach((field) => {
+            if (field.status === "possible-field") {
+                possibleFieldsCount++
+            }
+        })
+
+        if (
+            nextProps.data.levelTime !== 0
+            // && 
+            && possibleFieldsCount === 0
+            // && nextProps.data.leftToClick > 0
+            && nextProps.data.leftToClick < this.props.data.leftToClick) {
+            console.log("possibleFields count", possibleFieldsCount)
+            console.log("hello from 1st")
+            console.log("lives:", this.props.data.lives)
+            console.log("this leftToClick:", this.props.data.leftToClick)
+            console.log("next leftToClick:", nextProps.data.leftToClick)
+            if ((this.props.data.lives - nextProps.data.leftToClick) < 1) {
+
+                this.props.setReachedLevel(this.props.data.startLevel);
+                this.props.setLevel(parseInt(this.props.data.startLevel, 10));
+                this.props.setLives(1);
+                console.log("hello from lives < 1")
+
+                this.setState({
+                    gameOverModal: true
+                })
+
+                this.props.clearLevelTimer();
+                // this.props.resetLevelTime();
+
+
+            }
+            else if ((nextProps.data.lives - nextProps.data.leftToClick) > 0) {
+                console.log("hello from (nextProps.data.lives - nextProps.data.leftToClick) > 0")
+
+                nextProps.setLives(this.props.data.lives - nextProps.data.leftToClick);
+            }
+        }
+    }
+
 
     render() {
 
@@ -221,6 +290,7 @@ class Fields extends React.Component {
                 <NextLevelModal isVisible={this.state.nextLevelModal}
                     levelUp={this.props.levelUp}
                     closeNextLevelModal={this.closeNextLevelModal}
+                    masterRestart={this.props.masterRestart}
                 />
                 <BustedLevelModal isVisible={this.state.bustedLevelModal}
                     startLevel={this.props.data.startLevel}
@@ -229,9 +299,12 @@ class Fields extends React.Component {
                     startLevel={this.props.data.startLevel}
                     setLevel={this.props.setLevel}
                     closeBustedLevelModal={this.closeBustedLevelModal}
+                    masterRestart={this.props.masterRestart}
                 />
                 <GameOverModal isVisible={this.state.gameOverModal}
-                    closeGameOverModal={this.closeGameOverModal} />
+                    closeGameOverModal={this.closeGameOverModal}
+                    masterRestart={this.props.masterRestart}
+                />
                 <div className="fields row">
                     {this.isInitialClick()}
                 </div>

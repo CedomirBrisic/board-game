@@ -2,6 +2,7 @@ import React from "react";
 import Modal from 'react-bootstrap4-modal';
 
 const GameOverModal = (props) => {
+
     return (
         <Modal visible={props.isVisible}>
             <div className="modal-header">

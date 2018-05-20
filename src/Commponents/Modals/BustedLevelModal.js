@@ -3,14 +3,13 @@ import Modal from 'react-bootstrap4-modal';
 
 const BustedLevelModal = (props) => {
 
-
     const chosenLevel = (event) => {
         const level = parseInt(event.target.getAttribute("data-level"), 10);
         props.setLevel(level);
         props.closeBustedLevelModal();
     }
 
-    const generateLevels = () => {
+    const generateChosenLevel = () => {
         const levels = [];
         for (let i = props.startLevel; i <= props.levelReached; i++) {
             levels.push(<a className="dropdown-item" data-level={i} key={i}
@@ -22,8 +21,7 @@ const BustedLevelModal = (props) => {
     return (
 
         <Modal visible={props.isVisible}>
-            <div className="modal-header">
-                <h4 className="modal-title p-3"></h4>
+            <div className="modal-header p-4">
             </div>
             <div className="modal-body text-center">
                 <h5>Rule #95 Kid,
@@ -39,7 +37,7 @@ const BustedLevelModal = (props) => {
                         Choose Level to start again
                     </button>
                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        {generateLevels()}
+                        {generateChosenLevel()}
 
                     </div>
                 </div>
