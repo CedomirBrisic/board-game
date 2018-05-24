@@ -1,5 +1,5 @@
 const fieldsData = [
-
+    
     {
         "id": 1,
         "x": 1,

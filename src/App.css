@@ -69,3 +69,7 @@
   display: block;
   padding-top: 75%;
 }
+svg{
+  stroke:rgb(255,0,0);
+  stroke-width:2;
+}
