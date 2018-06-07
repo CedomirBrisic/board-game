@@ -1,8 +1,8 @@
 import React from "react";
-import SetDefaultLevel from "./Commponents/Modals/SetDefaultLevel";
-import GameStats from "./Commponents/GameStats";
-import Fields from "./Commponents/Fields";
-import AdvancedStats from "./Commponents/AdvancedStats/AdvancedStats";
+import SetDefaultLevel from "./components/modals/SetDefaultLevel";
+import GameStats from "./components/GameStats";
+import Fields from "./components/Fields";
+import AdvancedStats from "./components/advancedStats/AdvancedStats";
 import "./App.css";
 
 class App extends React.Component {
@@ -117,8 +117,8 @@ class App extends React.Component {
   resetClickTimeData = () => {
     this.setState({
       singleClickTime: [0],
-      clickTotalTime:0,
-      longestSingleClickTime:0
+      clickTotalTime: 0,
+      longestSingleClickTime: 0
     });
   };
 
@@ -219,7 +219,6 @@ class App extends React.Component {
             toggleDefaultLevelButton={this.toggleDefaultLevelButton}
             getClickTime={this.getClickTime}
             resetClickTimeData={this.resetClickTimeData}
-
             data={this.state}
           />
 

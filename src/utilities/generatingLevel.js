@@ -12,17 +12,28 @@ const generateLevel = (initialFieldData, level) => {
             const allPossibilities = calculatePossibleFields(lastPlacedField)
             const possibleFields = [];
 
-            allPossibilities.forEach((possibleField) => {
-                let c = 0;
-                generatedFields.forEach((generatedField) => {
-                    if (generatedField.id !== possibleField.id) {
+            for (let j = 0 ; j < allPossibilities.length; j++){
+                let c= 0;
+                for (let k = 0; k < generatedFields.length; k++){
+                    if (generatedFields[k].id !== allPossibilities[j].id){
                         c++
                     }
-                    if (c === generatedFields.length) {
-                        possibleFields.push(possibleField);
+                    if (c === generatedFields.length){
+                        possibleFields.push(allPossibilities[j])
                     }
-                })
-            })
+                }
+            }
+            // allPossibilities.forEach((possibleField) => {
+            //     let c = 0;
+            //     generatedFields.forEach((generatedField) => {
+            //         if (generatedField.id !== possibleField.id) {
+            //             c++
+            //         }
+            //         if (c === generatedFields.length) {
+            //             possibleFields.push(possibleField);
+            //         }
+            //     })
+            // })
             if (possibleFields.length === 0) {
                 i = -1;
                 generatedFields = [initialFieldData];
