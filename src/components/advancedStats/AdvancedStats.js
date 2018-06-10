@@ -1,6 +1,6 @@
 import React from "react";
 
-import ChartData from "./ChartData";
+// import ChartData from "./ChartData";
 
 const AdvancedStats = (props) => {
 
@@ -13,7 +13,7 @@ const AdvancedStats = (props) => {
             </button>
             <div className="collapse w-100" id="collapseExample">
 
-                <ChartData data={props.data}/>
+                {/* <ChartData data={props.data}/> */}
 
                 <div className="card top-score card-body">
                     <h6> Top Score coming soon... </h6>

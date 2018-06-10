@@ -23,17 +23,6 @@ const generateLevel = (initialFieldData, level) => {
                     }
                 }
             }
-            // allPossibilities.forEach((possibleField) => {
-            //     let c = 0;
-            //     generatedFields.forEach((generatedField) => {
-            //         if (generatedField.id !== possibleField.id) {
-            //             c++
-            //         }
-            //         if (c === generatedFields.length) {
-            //             possibleFields.push(possibleField);
-            //         }
-            //     })
-            // })
             if (possibleFields.length === 0) {
                 i = -1;
                 generatedFields = [initialFieldData];
