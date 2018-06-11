@@ -18,3 +18,9 @@ http://superawesomegame.bitballoon.com/
 
 Thats it!
 Have fun!
+
+
+
+
+
+complete documentation generated via JSDoc is in OUT folder
