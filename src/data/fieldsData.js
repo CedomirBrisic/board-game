@@ -1,3 +1,8 @@
+/**
+ * self-invoked anonymus function that creates data object for fields
+ * @param  {} (
+ * @returns object with initial fields data
+ */
 const fieldsData = (() => {
     let id = 1;
     const output = [];

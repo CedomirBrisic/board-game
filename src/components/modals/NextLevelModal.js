@@ -1,8 +1,13 @@
 import React from "react";
 import Modal from 'react-bootstrap4-modal';
 
+/**
+ * stateless component
+ * @param {object} props
+ * @returns <NextLevelModal />
+ */
 const NextLevelModal = (props) => {
-    
+
     return (
         <Modal visible={props.isVisible}>
             <div className="modal-header">

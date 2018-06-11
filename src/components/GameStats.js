@@ -1,5 +1,10 @@
 import React from "react";
 
+/**
+ * stateless component
+ * @param {object} props
+ * @returns <GameStats />
+ */
 const GameStats = (props) => {
 
     return (

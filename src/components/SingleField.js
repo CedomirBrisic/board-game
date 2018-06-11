@@ -1,5 +1,10 @@
 import React from "react";
 
+/**
+ * stateless component
+ * @param {object} props
+ * @returns <SingleField />
+ */
 const SingleField = (props) => {
 
     return (
